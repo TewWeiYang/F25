@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>EcoSave – Recycle Events</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- HERO -->
+  <header class="hero">
+    <h1>🌍 EcoSave</h1>
+    <p>Join Recycling Events. Earn Rewards. Save the World.</p>
+    <button onclick="scrollToEvents()">🌱 View Events</button>
+  </header>
+
+  <!-- EVENTS -->
+  <section id="events">
+    <h2>♻️ Upcoming Recycling Events</h2>
+
+    <div class="event-card">
+      <div class="event-info">
+        <h3>Community Recycling Day</h3>
+        <p>📍 Tampines Community Club</p>
+        <p>📅 12 Oct 2025 • 9AM – 1PM</p>
+        <p class="desc">
+          Bring paper, plastic & electronics. Get an eco code and earn points!
+        </p>
+      </div>
+      <button onclick="goToEventDetail()">Attend Event</button>
+
+    </div>
+
+    <div class="event-card">
+      <div class="event-info">
+        <h3>School Eco Collection Drive</h3>
+        <p>📍 Republic Polytechnic</p>
+        <p>📅 20 Oct 2025 • 10AM – 3PM</p>
+        <p class="desc">
+          Recycle bottles & cans. Bonus points for students!
+        </p>
+      </div>
+      <button onclick="goToEventDetail()">Attend Event</button>
+
+    </div>
+
+    <div class="event-card">
+      <div class="event-info">
+        <h3>Green Market Recycling Booth</h3>
+        <p>📍 Yishun Central</p>
+        <p>📅 2 Nov 2025 • 4PM – 8PM</p>
+        <p class="desc">
+          Recycle on the spot and enter the iPhone lucky draw.
+        </p>
+      </div>
+      <button onclick="goToEventDetail()">Attend Event</button>
+
+    </div>
+  </section>
+
+  <button onclick="viewEvent()">View Details</button>
+
+</div>
+
+<script src="script.js"></script>
+<script>
+  function goToEventDetail() {
+    window.location.href = "events-detail.html";
+  }
+</script>
+
+</body>
+</html>
