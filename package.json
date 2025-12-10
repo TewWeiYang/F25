@@ -1,5 +1,16 @@
 {
   "dependencies": {
-    "animejs": "^4.2.2"
-  }
+    "animejs": "^4.2.2",
+    "express": "^5.2.1"
+  },
+  "name": "hackathon_dec",
+  "description": "Working together to get champion to power to sg",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
