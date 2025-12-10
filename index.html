@@ -97,14 +97,14 @@ button.secondary {
 
 <!-- Title section -->
 <div class="hero">
-  <h1>Spring Town Adventure</h1>
+  <h1>Collectible Puzzle System</h1>
   <p>Complete tasks, earn points, collect puzzles</p>
 </div>
 
 <!-- UI Info -->
 <div class="progress-card">
   <div><strong>Points</strong><span id="points">0</span></div>
-  <div><strong>Steps</strong><span id="step">0</span> / 100</span></div>
+  <div><strong>Steps</strong><span id="step">0</span> / 100</div>
   <div><strong>Puzzle</strong><span id="puzzleCount">0</span> / 4</div>
 </div>
 
@@ -116,7 +116,7 @@ button.secondary {
 <!-- MAP START -->
 <div class="track-wrapper">
 
-<svg viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+<svg id="gameSvg" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
 
   <!-- Gradient background -->
   <defs>
@@ -134,6 +134,11 @@ button.secondary {
       <stop offset="0%" stop-color="#b28a36" stop-opacity="0.2"/>
       <stop offset="100%" stop-color="#000" stop-opacity="0"/>
     </linearGradient>
+
+    <!-- 烟雾模糊效果 -->
+    <filter id="smokeBlur">
+      <feGaussianBlur stdDeviation="4" />
+    </filter>
   </defs>
 
   <!-- Sky -->
@@ -174,7 +179,7 @@ button.secondary {
         Z
         "
         fill="url(#roadGrad)"
-        stroke="#fff"
+        stroke="black"
         stroke-width="20"
         stroke-linecap="round"
         stroke-linejoin="round"/>
@@ -202,9 +207,12 @@ button.secondary {
 
   <!-- Start Marker -->
   <circle cx="360" cy="180" r="20" fill="#ff6a00"/>
-  <text x="360" y="185" font-size="20" text-anchor="middle" fill="black">START</text>
+  <text x="360" y="185" font-size="20" text-anchor="middle" fill="red">START</text>
 
-  <!-- SVG 矢量小车：以 (0,0) 为中心 -->
+  <!-- 车 + 烟雾容器（车在前，烟雾在后） -->
+  <g id="smokeLayer"></g>
+
+  <!-- SVG 矢量小车：以 (0,0) 为中心画 -->
   <g id="car" transform="translate(360 180)">
     <!-- 车身 -->
     <rect x="-32" y="-14" width="64" height="26" rx="8" fill="#ff4a4a"/>
@@ -236,7 +244,7 @@ button.secondary {
 </div>
 
 
-<!-- 纯原生 JS 控制路径与小车 -->
+<!-- 纯原生 JS 控制路径 + 小车 + 烟雾粒子 -->
 <script>
   let points = 0;
   let currentStep = 0;
@@ -248,9 +256,14 @@ button.secondary {
   const stepEl = document.getElementById("step");
   const puzzleCountEl = document.getElementById("puzzleCount");
 
+  const svg = document.getElementById("gameSvg");
   const path = document.getElementById("road");
   const car = document.getElementById("car");
+  const smokeLayer = document.getElementById("smokeLayer");
   const pathLength = path.getTotalLength();
+
+  const particles = [];
+  const PARTICLE_LIFETIME = 800; // 毫秒
 
   function completeTask() {
     points += 20;
@@ -276,7 +289,7 @@ button.secondary {
     }
 
     updateUI();
-    updateCarPosition();
+    updateCarPosition(true); // true = 产生烟雾
   }
 
   function updateUI() {
@@ -285,18 +298,85 @@ button.secondary {
     puzzleCountEl.textContent = puzzleCount;
   }
 
-  // 根据 currentStep 在路径上定位小车
-  function updateCarPosition() {
+  // 在路径上根据 currentStep 定位小车 + 产生烟雾
+  function updateCarPosition(spawnSmokeFlag) {
     const progress = currentStep / 100;      // 0 ~ 1
     const distance = pathLength * progress;
     const pt = path.getPointAtLength(distance);
 
-    // 因为车的局部坐标是以 (0,0) 为中心画的，所以这里只要平移过去就好
+    // 小车平移到路径点（车本身是以0,0为中心画的）
     car.setAttribute("transform", `translate(${pt.x} ${pt.y})`);
+
+    if (spawnSmokeFlag) {
+      // 计算路径方向向量（用前一个点粗略算方向）
+      const prevDist = Math.max(0, distance - 20);
+      const prevPt = path.getPointAtLength(prevDist);
+
+      const dx = pt.x - prevPt.x;
+      const dy = pt.y - prevPt.y;
+      const len = Math.sqrt(dx*dx + dy*dy) || 1;
+      const nx = dx / len;
+      const ny = dy / len;
+
+      // 在小车后面一点点的位置喷烟（反方向）
+      const smokeX = pt.x - nx * 40;
+      const smokeY = pt.y - ny * 40;
+
+      spawnSmoke(smokeX, smokeY);
+    }
   }
 
-  // 初始把车放到起点
-  updateCarPosition();
+  // 生成一颗烟雾粒子
+  function spawnSmoke(x, y) {
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    const jitterX = (Math.random() - 0.5) * 20; // 随机抖动
+    const jitterY = (Math.random() - 0.5) * 10;
+
+    circle.setAttribute("cx", x + jitterX);
+    circle.setAttribute("cy", y + jitterY);
+    circle.setAttribute("r", 6);
+    circle.setAttribute("fill", "#ffffff");
+    circle.setAttribute("opacity", "0.7");
+    circle.setAttribute("filter", "url(#smokeBlur)");
+
+    smokeLayer.appendChild(circle);
+
+    particles.push({
+      el: circle,
+      start: performance.now()
+    });
+  }
+
+  // 粒子动画循环
+  function updateParticles(timestamp) {
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      const age = timestamp - p.start;
+      if (age >= PARTICLE_LIFETIME) {
+        // 删除粒子
+        if (p.el.parentNode) p.el.parentNode.removeChild(p.el);
+        particles.splice(i, 1);
+        continue;
+      }
+
+      const t = age / PARTICLE_LIFETIME; // 0~1
+      const newR = 6 + t * 14;           // 半径变大
+      const newOpacity = 0.7 * (1 - t);  // 逐渐透明
+
+      p.el.setAttribute("r", newR);
+      p.el.setAttribute("opacity", newOpacity);
+
+      // 轻微往上飘
+      const cy = parseFloat(p.el.getAttribute("cy"));
+      p.el.setAttribute("cy", cy - 0.4);
+    }
+
+    requestAnimationFrame(updateParticles);
+  }
+
+  // 初始把车放到起点，并启动粒子动画循环
+  updateCarPosition(false);
+  requestAnimationFrame(updateParticles);
 </script>
 
 </body>
