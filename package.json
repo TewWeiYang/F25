@@ -1,7 +1,9 @@
 {
   "dependencies": {
     "animejs": "^4.2.2",
-    "express": "^5.2.1"
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "nodemailer": "^7.0.11"
   },
   "name": "hackathon_dec",
   "description": "Working together to get champion to power to sg",
