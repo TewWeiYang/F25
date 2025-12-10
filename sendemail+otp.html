@@ -6,7 +6,7 @@
         body {
             margin: 0;
             font-family: "Segoe UI", Arial, sans-serif;
-            background: linear-gradient(135deg, #0a3d62, #3c6382);
+            background: linear-gradient(135deg, #32b066, #32b066);
             display: flex;  
             justify-content: center;
             align-items: center;
@@ -49,7 +49,7 @@
             margin-top: 20px;
             padding: 12px;
             border: none;
-            background: #0a3d62;
+            background: #32b066;
             color: white;
             font-size: 16px;
             border-radius: 6px;
@@ -58,7 +58,7 @@
         }
 
         button:hover {
-            background: #1e6bb8;
+            background: #32b066;
         }
 
         #otp-section {
@@ -139,7 +139,7 @@ function verifyOtp() {
     .then(data => {
         document.getElementById("status").innerText = data.message;
         if(data.message === "OTP verified") {
-            window.location.href = "niabeicb.html"; 
+            window.location.href = ".html"; 
         }
     })
     .catch(err => console.log(err));
