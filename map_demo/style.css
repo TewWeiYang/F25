@@ -1,0 +1,35 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #cfdc8c;
+  text-align: center;
+}
+
+.map {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  margin: 40px auto;
+  background: #b8d17c;
+  border-radius: 12px;
+}
+
+/* path tiles */
+.tile {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  background: #f4f4f4;
+  border-radius: 10px;
+  border: 2px solid #ddd;
+}
+
+/* player */
+#player {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: #ff7675;
+  border-radius: 50%;
+  top: 15px;
+  left: 15px;
+}

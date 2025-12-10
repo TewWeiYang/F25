@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Game Map Demo</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+</head>
+<body>
+
+<div class="map">
+  <!-- tiles -->
+  <div class="tile" style="top:0; left:0;"></div>
+  <div class="tile" style="top:0; left:120px;"></div>
+  <div class="tile" style="top:0; left:240px;"></div>
+  <div class="tile" style="top:120px; left:240px;"></div>
+  <div class="tile" style="top:240px; left:240px;"></div>
+
+  <!-- player -->
+  <div id="player"></div>
+</div>
+
+<button onclick="movePlayer()">Move</button>
+
+<script src="script.js"></script>
+</body>
+</html>
