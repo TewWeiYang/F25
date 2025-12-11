@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Recycling Event Details</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+</head>
+<body>
+
+<!-- TOP NAVBAR -->
+<nav class="eco-bar">
+  <div class="eco-left">
+    <h2>Eco Rewards</h2>
+  </div>
+
+  <div class="eco-center">
+    <img src="logo.png" class="eco-logo">
+  </div>
+
+  <div class="eco-right">
+    <a href="home.html">Home</a>
+    <a href="works.html">How It Works</a>
+    <a href="sendemail+otp.html">Login</a>
+  </div>
+</nav>
+
+<div class="app">
+
+  <!-- HEADER -->
+  <header class="hero detail">
+    <h1 id="event-title"></h1>
+    <p>Together we recycle, together we save the Earth</p>
+  </header>
+
+  <!-- EVENT INFO -->
+  <section class="card detail-card">
+    <h2>📍 Event Information</h2>
+
+    <p id="event-location"></p>
+    <p id="event-date"></p>
+    <p id="event-time"></p>
+
+    <h2>🗺 Event Location Map</h2>
+    <div id="googleMap" style="width:100%; height:400px; border-radius:20px;"></div>
+
+  </section>
+
+  <!-- RECYCLE ITEMS -->
+  <section class="card detail-card">
+    <h2>🧺 What to Bring</h2>
+    <ul class="list">
+      <li>📄 Paper & cardboard</li>
+      <li>🥤 Plastic bottles</li>
+      <li>📱 Small electronic waste</li>
+    </ul>
+  </section>
+
+  <!-- REWARDS -->
+  <section class="card detail-card">
+    <h2>🎁 Rewards</h2>
+    <p>✅ Attend event → <b>50 points</b></p>
+    <p>✅ Recycle items → <b>+20 bonus points</b></p>
+    <p>✅ Enter lucky draw for <b>iPhone</b></p>
+    <p>✅ Redeem NTUC vouchers</p>
+  </section>
+
+  <!-- OTP INFO -->
+  <section class="card detail-card highlight">
+    <h2>🔑 How to Earn Points</h2>
+    <p>You will receive a <b>one-time eco code</b> after attending.</p>
+    <p>Enter the code on the EcoSave website to earn your rewards.</p>
+  </section>
+
+  <!-- ACTIONS -->
+  <div class="actions">
+    <button onclick="goBack()">⬅ Back to Events</button>
+    <button class="primary" href="car_puzzle_reward.html">✅ Attend Event</button>
+  </div>
+
+</div>
+
+<script src="home_and_events_detail.js"></script>
+
+<!-- DYNAMIC EVENT FILLING -->
+<script>
+const events = {
+    1: {
+        title: "Community Recycling Day",
+        location: "Tampines Community Club",
+        date: "12 Oct 2025",
+        time: "9AM – 1PM",
+        lat: 1.3536,
+        lng: 103.9457
+    },
+    2: {
+        title: "School Eco Collection Drive",
+        location: "Republic Polytechnic",
+        date: "20 Oct 2025",
+        time: "10AM – 3PM",
+        lat: 1.4423,
+        lng: 103.7850
+    },
+    3: {
+        title: "Green Market Recycling Booth",
+        location: "Yishun Central",
+        date: "2 Nov 2025",
+        time: "4PM – 8PM",
+        lat: 1.4304,
+        lng: 103.8355
+    }
+};
+
+const eventId = localStorage.getItem("eventId") || 1;
+const data = events[eventId];
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("event-title").textContent = "♻️ " + data.title;
+    document.getElementById("event-location").innerHTML = `<b>Location:</b> ${data.location}`;
+    document.getElementById("event-date").innerHTML = `<b>Date:</b> ${data.date}`;
+    document.getElementById("event-time").innerHTML = `<b>Time:</b> ${data.time}`;
+});
+</script>
+
+<!-- GOOGLE MAP -->
+<script>
+function initMap() {
+    const pos = { lat: data.lat, lng: data.lng };
+
+    const map = new google.maps.Map(document.getElementById("googleMap"), {
+        zoom: 15,
+        center: pos,
+    });
+
+    new google.maps.Marker({
+        position: pos,
+        map: map,
+        title: data.title
+    });
+}
+</script>
+
+<script async src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
+
+
+<footer class="eco-footer">
+  © 2025 Eco Rewards • One Step, Save World
+</footer>
+</body>
+</html>

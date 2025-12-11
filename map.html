@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Collectible Puzzle System - Spring Town Map</title>
+ 
+<style>
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(180deg, #eaf8df, #f7fff3);
+  text-align: center;
+  color: #333;
+}
+ 
+/* UI Header */
+.hero { padding: 24px 16px 10px; }
+.hero h1 { margin: 0; font-size: 28px; }
+.hero p { margin-top: 6px; font-size: 14px; color: #666; }
+ 
+/* Progress info */
+.progress-card {
+  display: flex;
+  justify-content: space-around;
+  background: #fff;
+  border-radius: 14px;
+  padding: 12px;
+  margin: 10px auto 16px;
+  max-width: 360px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+.progress-card div { font-size: 13px; }
+.progress-card strong { display: block; margin-bottom: 4px; }
+ 
+/* Buttons */
+button {
+  background: linear-gradient(135deg, #ff9a00, #ff6a00);
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: bold;
+  width: 90%;
+  max-width: 320px;
+  margin: 6px 0;
+  box-shadow: 0 10px 20px rgba(255,106,0,.35);
+  cursor: pointer;
+}
+button.secondary {
+  background: linear-gradient(135deg, #4caf50, #2e7d32);
+}
+ 
+/* Puzzle small UI */
+.puzzles {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 18px auto;
+}
+.puzzle {
+  width: 80px;
+  height: 80px;
+  background: #ddd;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,.2);
+}
+.puzzle.done {
+  background-image: url("puzzle.jpg");
+  background-size: 200% 200%;
+  animation: unlock .5s ease forwards;
+}
+@keyframes unlock {
+  from { opacity: 0; transform: scale(.7); }
+  to { opacity: 1; transform: scale(1); }
+}
+.p1 { background-position: 0% 0%; }
+.p2 { background-position: 100% 0%; }
+.p3 { background-position: 0% 100%; }
+.p4 { background-position: 100% 100%; }
+ 
+/* Track container */
+.track-wrapper {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+}
+.track-wrapper svg {
+  width: 100%;
+  display: block;
+}
+</style>
+</head>
+ 
+<body>
+ 
+<!-- Title section -->
+<div class="hero">
+  <h1>Spring Town Adventure</h1>
+  <p>Complete tasks, earn points, collect puzzles</p>
+</div>
+ 
+<!-- UI Info -->
+<div class="progress-card">
+  <div><strong>Points</strong><span id="points">0</span></div>
+  <div><strong>Steps</strong><span id="step">0</span> / 100</div>
+  <div><strong>Puzzle</strong><span id="puzzleCount">0</span> / 4</div>
+</div>
+ 
+<!-- Buttons -->
+<button class="secondary" onclick="completeTask()">🎯 Complete Task (+20)</button>
+<button onclick="exchangeSteps()">🚗 Exchange Points → Move</button>
+ 
+ 
+<!-- MAP START -->
+<div class="track-wrapper">
+ 
+<svg viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
+ 
+  <!-- Gradient background -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#d7f6b8"/>
+      <stop offset="100%" stop-color="#b2e69f"/>
+    </linearGradient>
+ 
+    <linearGradient id="roadGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f2c14e"/>
+      <stop offset="100%" stop-color="#ddb142"/>
+    </linearGradient>
+ 
+    <linearGradient id="shadowGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#b28a36" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+ 
+  <!-- Sky -->
+  <rect width="1920" height="1080" fill="url(#bgGrad)" />
+ 
+  <!-- Soft hills -->
+  <ellipse cx="500" cy="900" rx="900" ry="300" fill="#b6e29b" />
+  <ellipse cx="1400" cy="950" rx="1100" ry="350" fill="#aee092" />
+ 
+  <!-- River -->
+  <path d="M300,1080 C500,700 600,700 900,1080 Z"
+        fill="#96d6ff" opacity="0.7"/>
+ 
+  <!-- ROAD SHADOW -->
+  <path d="
+        M 360 180
+        Q 960 120 1560 180
+        Q 1680 240 1680 540
+        Q 1680 840 1560 900
+        Q 960 960 360 900
+        Q 240 840 240 540
+        Q 240 240 360 180
+        Z
+        "
+        fill="url(#shadowGrad)"
+        transform="translate(8,8)" />
+ 
+  <!-- MAIN ROAD -->
+  <path id="road"
+        d="
+        M 360 180
+        Q 960 120 1560 180
+        Q 1680 240 1680 540
+        Q 1680 840 1560 900
+        Q 960 960 360 900
+        Q 240 840 240 540
+        Q 240 240 360 180
+        Z
+        "
+        fill="url(#roadGrad)"
+        stroke="#fff"
+        stroke-width="20"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+ 
+  <!-- Trees -->
+  <g fill="#6dbc42">
+    <circle cx="400" cy="300" r="30"/>
+    <circle cx="440" cy="320" r="25"/>
+    <circle cx="1500" cy="250" r="30"/>
+    <circle cx="1450" cy="280" r="30"/>
+    <circle cx="1200" cy="800" r="35"/>
+    <circle cx="1180" cy="840" r="30"/>
+    <circle cx="800" cy="900" r="25"/>
+    <circle cx="820" cy="930" r="25"/>
+  </g>
+ 
+  <!-- Houses -->
+  <g fill="#fff" stroke="#e44d4d" stroke-width="4">
+    <rect x="300" y="280" width="100" height="80"/>
+    <polygon points="300,280 350,220 400,280"/>
+   
+    <rect x="1500" y="700" width="120" height="90"/>
+    <polygon points="1500,700 1560,640 1620,700"/>
+  </g>
+ 
+  <!-- Start Marker -->
+  <circle cx="360" cy="180" r="20" fill="#ff6a00"/>
+  <text x="360" y="185" font-size="20" text-anchor="middle" fill="#fff">START</text>
+ 
+  <!-- Car（初始位置会由 JS 设置） -->
+  <text id="car" x="360" y="180" font-size="36" text-anchor="middle" dominant-baseline="middle">
+    🚗
+  </text>
+ 
+</svg>
+ 
+</div>
+<!-- MAP END -->
+ 
+ 
+<!-- Puzzle UI -->
+<div class="puzzles">
+  <div class="puzzle p1" id="pz1"></div>
+  <div class="puzzle p2" id="pz2"></div>
+  <div class="puzzle p3" id="pz3"></div>
+  <div class="puzzle p4" id="pz4"></div>
+</div>
+ 
+ 
+<!-- 原生 JS 控制路径，不需要 Anime.js -->
+<script>
+  let points = 0;
+  let currentStep = 0;
+  let puzzleCount = 0;
+  const costPerStep = 10;
+  const giftSteps = [25, 50, 75];
+ 
+  const pointsEl = document.getElementById("points");
+  const stepEl = document.getElementById("step");
+  const puzzleCountEl = document.getElementById("puzzleCount");
+ 
+  const path = document.getElementById("road");
+  const car = document.getElementById("car");
+  const pathLength = path.getTotalLength();
+ 
+  function completeTask() {
+    points += 20;
+    updateUI();
+  }
+ 
+  function exchangeSteps() {
+    if (points < costPerStep) {
+      alert("Not enough points!");
+      return;
+    }
+    points -= costPerStep;
+    currentStep++;
+ 
+    if (giftSteps.includes(currentStep)) {
+      alert("🎁 Gift unlocked!");
+    }
+ 
+    if (currentStep === 100) {
+      puzzleCount++;
+      document.getElementById("pz" + puzzleCount).classList.add("done");
+      currentStep = 0;
+    }
+ 
+    updateUI();
+    updateCarPosition();
+  }
+ 
+  function updateUI() {
+    pointsEl.textContent = points;
+    stepEl.textContent = currentStep;
+    puzzleCountEl.textContent = puzzleCount;
+  }
+ 
+  // 根据 currentStep 在路径上定位小车
+  function updateCarPosition() {
+    const progress = currentStep / 100;      // 0 ~ 1
+    const distance = pathLength * progress;
+    const pt = path.getPointAtLength(distance);
+ 
+    // 把小车移动到路径点
+    car.setAttribute("x", pt.x);
+    car.setAttribute("y", pt.y);
+  }
+ 
+  // 初始把车放到起点
+  updateCarPosition();
+</script>
+ 
+</body>
+</html>
