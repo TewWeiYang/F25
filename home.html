@@ -2,42 +2,43 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>EcoSave – Recycle Events</title>
+  <title>Eco Rewards – EcoSave Events</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 </head>
 <body>
 
-<nav class="eco-nav">
-  <div class="nav-logo">
-    <img src="https://i.imgur.com/RSqSrqS.png">
-    <span>EcoSave</span>
+<!-- TOP NAVBAR -->
+<nav class="eco-bar">
+  <div class="eco-left">
+    <h2>Eco Rewards</h2>
   </div>
 
-  <ul class="nav-links">
-    <li><a href="home.html">Home</a></li>
-    <li><a href="home.html#events">Events</a></li>
-    <li><a href="#">Rewards</a></li>
-    <li><a href="#">Tips</a></li>
-    <li><a href="#">Profile</a></li>
-  </ul>
+  <div class="eco-center">
+    <img src="logo.png" class="eco-logo">
+  </div>
+
+  <div class="eco-right">
+    <a href="home.html">Home</a>
+    <a href="works.html">How It Works</a>
+    <a href="sendemail+otp.html">Login</a>
+  </div>
 </nav>
 
-
+<!-- MAIN CONTENT -->
 <div class="app">
 
-  <!-- HERO -->
   <header class="hero">
-    <h1>🌍 EcoSave</h1>
-    <p>Join Recycling Events. Earn Rewards. Save the World.</p>
-    <button onclick="scrollToEvents()">🌱 View Events</button>
+    <div class="hero-card">
+      <h1>🌍 EcoSave</h1>
+      <p>Join Recycling Events. Earn Rewards. Save the World.</p>
+      <button onclick="scrollToEvents()">🌱 View Events</button>
+    </div>
   </header>
 
-  <!-- EVENTS -->
   <section id="events">
-    <h2>♻️ Upcoming Recycling Events</h2>
+    <h2 class="section-title">♻️ Upcoming Recycling Events</h2>
 
-    <!-- EVENT 1 -->
     <div class="event-card">
       <div class="event-info">
         <h3>Community Recycling Day</h3>
@@ -48,7 +49,6 @@
       <button onclick="goToEventDetail(1)">Attend Event</button>
     </div>
 
-    <!-- EVENT 2 -->
     <div class="event-card">
       <div class="event-info">
         <h3>School Eco Collection Drive</h3>
@@ -59,7 +59,6 @@
       <button onclick="goToEventDetail(2)">Attend Event</button>
     </div>
 
-    <!-- EVENT 3 -->
     <div class="event-card">
       <div class="event-info">
         <h3>Green Market Recycling Booth</h3>
@@ -69,18 +68,13 @@
       </div>
       <button onclick="goToEventDetail(3)">Attend Event</button>
     </div>
-
   </section>
 
-<footer class="eco-footer">
-  <a href="home.html" class="active">🏠 Home</a>
-  <a href="home.html#events">📅 Events</a>
-  <a href="#">♻️ Recycle</a>
-  <a href="#">🎁 Rewards</a>
-  <a href="#">👤 Profile</a>
-</footer>
-
 </div>
+
+<footer class="eco-footer">
+  © 2025 Eco Rewards • One Step, Save World
+</footer>
 
 <script src="home_and_events_detail.js"></script>
 
