@@ -54,11 +54,10 @@
             font-size: 16px;
             border-radius: 6px;
             cursor: pointer;
-            transition: 0.2s ease-in-out;
         }
 
         button:hover {
-            background: #32b066;
+            background: #29a15d;
         }
 
         #otp-section {
@@ -80,7 +79,6 @@
             margin-top: 15px;
             color: #7f8c8d;
         }
-
     </style>
 </head>
 <body>
@@ -108,9 +106,28 @@
 </div>
 
 <script>
-function sendOtp() {
-    const email = document.getElementById("email").value;
+// 从 localStorage 读取已注册账号
+let accounts = JSON.parse(localStorage.getItem("accounts")) || [];
 
+function sendOtp() {
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const status = document.getElementById("status");
+
+    // 检查账号是否存在
+    const account = accounts.find(a => a.email === email);
+    if (!account) {
+        status.innerText = "❌ Account does not exist";
+        return;
+    }
+
+    // 检查密码是否正确
+    if (account.password !== password) {
+        status.innerText = "❌ Incorrect password";
+        return;
+    }
+
+    // 账号存在且密码正确，发送 OTP
     fetch("http://localhost:3000/send-otp", {
         method: "POST",
         headers: {"Content-Type":"application/json"},
@@ -118,8 +135,8 @@ function sendOtp() {
     })
     .then(res => res.json())
     .then(data => {
-        document.getElementById("status").innerText = data.message;
-        if(data.message === "OTP sent") {
+        status.innerText = data.message;
+        if (data.message === "OTP sent") {
             document.getElementById("otp-section").style.display = "block";
         }
     })
@@ -127,8 +144,16 @@ function sendOtp() {
 }
 
 function verifyOtp() {
-    const email = document.getElementById("email").value;
+    const email = document.getElementById("email").value.trim();
     const otp = document.getElementById("otp").value;
+    const status = document.getElementById("status");
+
+    // 再次确认账号存在
+    const account = accounts.find(a => a.email === email);
+    if (!account) {
+        status.innerText = "❌ Account does not exist";
+        return;
+    }
 
     fetch("http://localhost:3000/verify-otp", {
         method: "POST",
@@ -137,8 +162,8 @@ function verifyOtp() {
     })
     .then(res => res.json())
     .then(data => {
-        document.getElementById("status").innerText = data.message;
-        if(data.message === "OTP verified") {
+        status.innerText = data.message;
+        if (data.message === "OTP verified") {
             window.location.href = "home_afterlogin.html"; 
         }
     })
