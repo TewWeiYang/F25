@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>My Profile • EcoSave</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --green-main: #2e6b41;
+      --green-soft: #4caf6f;
+      --accent: #18a4ff;
+      --bg-page: #f4f7fb;
+      --text-main: #111827;
+      --text-sub: #6b7280;
+      --radius-lg: 22px;
+      --shadow-soft: 0 22px 40px rgba(15, 23, 42, 0.18);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background:
+        radial-gradient(circle at top left, #e0f9e8 0, transparent 55%),
+        radial-gradient(circle at bottom right, #dbeafe 0, transparent 55%),
+        var(--bg-page);
+      color: var(--text-main);
+    }
+
+    .app {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 16px 16px 40px;
+    }
+
+    /* 顶部滚动公告 */
+    .banner {
+      background: linear-gradient(90deg, #fff7e6, #e6f7ff);
+      color: #1f2937;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      font-size: 15px;
+      font-weight: 600;
+      position: relative;
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+    .banner::before {
+      content: "";
+      margin-right: 8px;
+    }
+
+    .scrolling-wrapper {
+      display: inline-flex;
+      white-space: nowrap;
+      animation: scroll 20s linear infinite;
+    }
+    .banner:hover .scrolling-wrapper {
+      animation-play-state: paused;
+    }
+    .scrolling-text span {
+      margin-right: 100px;
+    }
+    @keyframes scroll {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* NAVBAR 跟 home.html 一样风格 */
+    .eco-bar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(120deg, rgba(46,107,65,0.98), rgba(34,73,47,0.98));
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 32px;
+      box-shadow: 0 12px 30px rgba(15,23,42,0.32);
+    }
+
+    .eco-left h2 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: .5px;
+    }
+
+    .eco-center {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .eco-logo {
+      height: 60px;
+      width: auto;
+      cursor: pointer;
+      border-radius: 999px;
+      background: #ffffff;
+      padding: 4px 14px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+      transition: transform .22s ease, box-shadow .22s ease;
+    }
+    .eco-logo:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 14px 26px rgba(0,0,0,0.35);
+    }
+
+    .eco-right a {
+      margin-left: 24px;
+      color: #e5f7ec;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      position: relative;
+      padding-bottom: 2px;
+      transition: color .18s ease;
+    }
+    .eco-right a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: #fff;
+      transition: width .18s ease;
+    }
+    .eco-right a:hover {
+      color: #ffffff;
+    }
+    .eco-right a:hover::after {
+      width: 100%;
+    }
+
+    /* HERO / 标题 */
+    .hero {
+      padding: 40px 0 10px;
+      display: flex;
+      justify-content: center;
+      text-align: left;
+    }
+
+    .hero-card {
+      position: relative;
+      width: 100%;
+      max-width: 780px;
+      padding: 24px 24px 22px;
+      border-radius: 26px;
+      background: radial-gradient(circle at top left,#bbf7d0,#e0f2fe);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle,#ffffff,transparent 70%);
+      top: -70px;
+      right: -40px;
+      opacity: .35;
+    }
+
+    /* 左边头像 + 基本资料 */
+    .profile-avatar {
+      position: relative;
+      z-index: 1;
+      flex-shrink: 0;
+      width: 96px;
+      height: 96px;
+      border-radius: 999px;
+      background: linear-gradient(135deg,#22c55e,#16a34a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 14px 30px rgba(22,163,74,0.65);
+      color: #fff;
+      font-size: 40px;
+      font-weight: 800;
+    }
+
+    .profile-main {
+      position: relative;
+      z-index: 1;
+    }
+
+    .profile-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.9);
+      font-size: 11px;
+      font-weight: 600;
+      color: #16a34a;
+      margin-bottom: 6px;
+    }
+
+    .profile-main h1 {
+      margin: 0;
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: .03em;
+    }
+
+    .profile-email {
+      margin-top: 4px;
+      font-size: 14px;
+      color: var(--text-sub);
+    }
+
+    .profile-meta {
+      margin-top: 8px;
+      font-size: 13px;
+      color: #4b5563;
+    }
+
+    .profile-meta span {
+      display: inline-block;
+      margin-right: 16px;
+    }
+
+    /* STATS 卡片 */
+    .stats-section {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+    }
+
+    .stat-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 14px 16px;
+      box-shadow: 0 10px 24px rgba(148,163,184,0.35);
+      border: 1px solid rgba(226,232,240,0.9);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+
+    .stat-value {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 2px;
+    }
+
+    .stat-note {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    /* 信息块：Badges / 最近活动 */
+    .grid-two {
+      margin-top: 26px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .info-block {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 18px 18px 16px;
+      box-shadow: 0 8px 20px rgba(148,163,184,0.25);
+      border: 1px solid rgba(226,232,240,0.9);
+    }
+
+    .info-block h3 {
+      margin: 0 0 10px;
+      font-size: 16px;
+      font-weight: 800;
+      color: #111827;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 6px;
+      font-size: 12px;
+    }
+
+    .badge-pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #ecfdf5;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+      font-weight: 600;
+    }
+
+    .activity-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      font-size: 13px;
+      color: #4b5563;
+    }
+
+    .activity-list li {
+      padding: 6px 0;
+      border-bottom: 1px dashed rgba(209,213,219,0.8);
+    }
+
+    .activity-list li:last-child {
+      border-bottom: none;
+    }
+
+    .small-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+
+    /* Footer */
+    .eco-footer {
+      text-align: center;
+      padding: 18px 12px 28px;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+
+    /* Logo Modal */
+    #logoModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(6px);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    #logoModal img {
+      max-width: 80%;
+      max-height: 80%;
+      border-radius: 20px;
+      box-shadow: 0 8px 26px rgba(0,0,0,0.45);
+      animation: zoomIn 0.25s ease;
+      background: #ffffff;
+    }
+
+    #closeLogo {
+      position: absolute;
+      top: 36px;
+      right: 46px;
+      font-size: 40px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    @keyframes zoomIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* 响应式 */
+    @media (max-width: 768px) {
+      .eco-bar {
+        padding: 8px 16px;
+      }
+
+      .eco-left h2 {
+        font-size: 20px;
+      }
+
+      .eco-right a {
+        margin-left: 14px;
+        font-size: 14px;
+      }
+
+      .hero-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .grid-two {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+<!-- 顶部滚动公告 -->
+<div class="banner">
+  <div class="scrolling-wrapper">
+    <div class="scrolling-text">
+      <span>Welcome back to EcoSave</span>
+      <span>Track your Eco Points & rewards here</span>
+      <span>One Step, Save World</span>
+    </div>
+  </div>
+</div>
+
+<!-- NAVBAR（和 home.html 一样） -->
+<nav class="eco-bar">
+  <div class="eco-left">
+    <h2>EcoSave</h2>
+  </div>
+
+  <div class="eco-center">
+    <img src="logo.png" class="eco-logo" id="logoBtn">
+  </div>
+
+  <div class="eco-right">
+    <a href="home.html">Home</a>
+    <a href="works.html">How It Works</a>
+    <a href="profile.html">Profile</a>
+  </div>
+</nav>
+
+<div class="app">
+
+  <!-- 顶部 Profile 卡片 -->
+  <header class="hero">
+    <div class="hero-card">
+      <!-- 头像：用名字首字母，例如 K -->
+      <div class="profile-avatar">
+        <span id="profileInitial"><%= (userName && userName[0]) || "U" %></span>
+      </div>
+
+      <div class="profile-main">
+        <div class="profile-pill">
+          ✅ Logged in · EcoSave Member
+        </div>
+        <h1>Hi, <span id="profileName"></span></h1>
+
+        <div class="profile-email">
+          Email: <strong id="profileEmail"></strong>
+        </div>
+
+        <div class="profile-meta">
+          <span>Joined: "2025"</span>
+          <span>Country:"Singapore"</span>
+        </div>
+
+        <div class="profile-meta">
+          <span>Preferred Language: "English"</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 统计卡片 -->
+  <section class="stats-section">
+    <div class="stat-card">
+      <div class="stat-label">Eco Points</div>
+      <div class="stat-value" id="pointsValue">0</div>
+      <div class="stat-note">Total points you have earned.</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Events Attended</div>
+      <div class="stat-value" id="eventsValue">0</div>
+      <div class="stat-note">Recycling & eco activities completed.</div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-label">Steps Converted</div>
+      <div class="stat-value" id="stepsValue">Upcoming...</div>
+      <div class="stat-note">Steps converted into Eco Points.</div>
+    </div>
+  </section>
+
+  <!-- Badges / 最近活动 -->
+  <section class="grid-two">
+    <div class="info-block">
+      <h3>🏅 Your Eco Badges</h3>
+      <div class="badge-list">
+        <span class="badge-pill">First Event Completed</span>
+        <span class="badge-pill">Recycling Starter</span>
+        <!-- 可以用后端条件渲染更多 badge -->
+        <!-- 例如：<% if (hasLuckyDrawBadge) { %>
+               <span class="badge-pill">Lucky Draw Participant</span>
+             <% } %> -->
+      </div>
+      <p class="small-label">More badges will appear here as you join events.</p>
+    </div>
+
+    <div class="info-block">
+      <h3>📅 Recent Activity</h3>
+      <ul class="activity-list">
+        <li>
+          Joined <strong>Community Recycling Day</strong><br/>
+          <span class="small-label">+50 Eco Points</span>
+        </li>
+        <li>
+          Converted walking steps to Eco Points<br/>
+          <span class="small-label">+20 Eco Points</span>
+        </li>
+        <li>
+          Registered for <strong>Green Market Recycling Booth</strong><br/>
+          <span class="small-label">Upcoming event</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<footer class="eco-footer">
+  © 2025 EcoSave • Eco Rewards • One Step, Save World
+</footer>
+
+<!-- Logo Modal -->
+<div id="logoModal">
+  <span id="closeLogo">✕</span>
+  <img src="logo.png" alt="Eco Rewards Logo Large">
+</div>
+
+<script>
+  // Logo Popup Script
+  const logoBtn   = document.getElementById("logoBtn");
+  const logoModal = document.getElementById("logoModal");
+  const closeLogo = document.getElementById("closeLogo");
+
+  logoBtn.onclick = () => {
+    logoModal.style.display = "flex";
+  };
+
+  closeLogo.onclick = () => {
+    logoModal.style.display = "none";
+  };
+
+  logoModal.onclick = (e) => {
+    if (e.target === logoModal) {
+      logoModal.style.display = "none";
+    }
+  };
+</script>
+
+</body>
+</html>
