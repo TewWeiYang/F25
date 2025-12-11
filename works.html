@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to Use • Eco Rewards Guide</title>
+
+  <style>
+    body {
+      margin: 0;
+      background: #f6f9f6;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      color: #1f2933;
+    }
+
+    /* Header */
+    header {
+      background: #2e6b41;
+      color: white;
+      padding: 16px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .left-title { flex: 1; }
+    .left-title h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .logo-center {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .nav-logo {
+      height: 65px;
+      width: auto;
+      cursor: pointer;
+    }
+
+    .right-nav { flex: 1; text-align: right; }
+    .right-nav a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .right-nav a:hover { text-decoration: underline; }
+
+    /* Hero section */
+    .hero {
+      padding: 60px 20px 40px;
+      text-align: center;
+      background: linear-gradient(135deg, #e3f6ea, #f6f9f6);
+    }
+
+    .hero h2 {
+      margin: 0;
+      font-size: 32px;
+      color: #18412a;
+    }
+
+    .hero p {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #4b5563;
+    }
+
+    /* Content container */
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 30px 20px 60px;
+    }
+
+    h3.section-title {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #18412a;
+      text-align: center;
+    }
+
+    /* Step cards */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .step-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px 18px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.06);
+      border: 1px solid rgba(46,107,65,0.08);
+    }
+
+    .step-number {
+      display: inline-block;
+      background: #2e6b41;
+      color: #ffffff;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .step-card h4 {
+      margin: 6px 0 8px;
+      font-size: 18px;
+      color: #18412a;
+    }
+
+    .step-card p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #4b5563;
+    }
+
+    /* Info blocks */
+    .info-block {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.04);
+      border: 1px solid rgba(46,107,65,0.08);
+      margin-bottom: 24px;
+    }
+
+    .info-block h4 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      color: #18412a;
+    }
+
+    .info-block p, .info-block ul {
+      font-size: 14px;
+      line-height: 1.7;
+      color: #4b5563;
+      margin: 0;
+    }
+
+    .info-block ul {
+      padding-left: 20px;
+      margin-top: 6px;
+    }
+
+    .highlight { color: #2e6b41; font-weight: 600; }
+
+    /* Button */
+    .btn-primary {
+      display: inline-block;
+      margin-top: 18px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      background: #2e6b41;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .btn-primary:hover { background: #275736; }
+
+    footer {
+      background: #2e6b41;
+      color: white;
+      text-align: center;
+      padding: 16px;
+      font-size: 13px;
+    }
+
+    /* ===== Logo Popup Modal ===== */
+    #logoModal {
+      display: none;              /* hidden by default */
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    #logoModal img {
+      max-width: 80%;
+      max-height: 80%;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    #closeLogo {
+      position: absolute;
+      top: 30px;
+      right: 40px;
+      font-size: 36px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+      transition: 0.2s;
+    }
+
+    #closeLogo:hover { color: #cccccc; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.85); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="left-title">
+    <h1>Eco Rewards</h1>
+  </div>
+
+  <div class="logo-center">
+    <!-- logo.png should be in the same folder as this HTML -->
+    <img src="logo.png" alt="One Step Save World Logo" class="nav-logo" id="logoBtn">
+  </div>
+
+  <nav class="right-nav">
+    <a href="index.html">Home</a>
+    <a href="how-to-use.html">How It Works</a>
+    <a href="sendemail+otp.html">Login</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h2>How to Use Eco Rewards</h2>
+  <p>Follow these simple steps to earn Eco Points and redeem exciting rewards.</p>
+</section>
+
+<div class="container">
+
+  <h3 class="section-title">Step-by-Step Guide</h3>
+
+  <div class="steps">
+    <div class="step-card">
+      <span class="step-number">STEP 1</span>
+      <h4>Create or Login to Your Account</h4>
+      <p>
+        Click the <span class="highlight">Login</span> button in the top-right corner.
+        You can log in using your email verification code.
+        New users will automatically get an Eco Rewards account.
+      </p>
+    </div>
+
+    <div class="step-card">
+      <span class="step-number">STEP 2</span>
+      <h4>Select an Eco-Friendly Event</h4>
+      <p>
+        After logging in, choose an event from the <span class="highlight">Events List</span>.
+        Examples: walking challenge, cycling to work, recycling activity,
+        joining clean-up events, and more. Each event shows how many points you can earn.
+      </p>
+    </div>
+
+    <div class="step-card">
+      <span class="step-number">STEP 3</span>
+      <h4>Complete the Action & Upload Proof</h4>
+      <p>
+        Perform the activity in real life, then upload
+        <span class="highlight">photo evidence, screenshots, or receipts</span>.
+        This proof verifies your eco action and allows points to be awarded.
+      </p>
+    </div>
+
+    <div class="step-card">
+      <span class="step-number">STEP 4</span>
+      <h4>Earn Points & Redeem Rewards</h4>
+      <p>
+        Once approved, the corresponding <span class="highlight">Eco Points</span> will appear in your account.
+        Save points and redeem them for vouchers, eco-products, cash rewards, or enter lucky draw events!
+      </p>
+    </div>
+  </div>
+
+  <h3 class="section-title">Frequently Asked Questions</h3>
+
+  <div class="info-block">
+    <h4>What kind of actions can earn points?</h4>
+    <p>You can earn points by completing any of the following:</p>
+    <ul>
+      <li>Joining on-site eco events (tree planting, cleanups, recycling fairs)</li>
+      <li>Walking, cycling, or using public transport</li>
+      <li>Recycling bottles, cans, or household items</li>
+      <li>Purchasing eco-friendly products</li>
+      <li>Completing weekly or monthly eco challenges</li>
+    </ul>
+  </div>
+
+  <div class="info-block">
+    <h4>What counts as valid “proof”?</h4>
+    <ul>
+      <li>Screenshots from fitness or step-tracking apps</li>
+      <li>Public transport / ride-hailing trip records</li>
+      <li>Photos from eco event locations</li>
+      <li>QR code check-ins at events</li>
+      <li>Receipts showing eco-friendly purchases</li>
+    </ul>
+  </div>
+
+  <div class="info-block">
+    <h4>What rewards can I redeem?</h4>
+    <p>
+      Rewards vary by partners and countries.  
+      They may include:
+    </p>
+    <ul>
+      <li>Discount vouchers</li>
+      <li>Gift cards</li>
+      <li>Eco-friendly products</li>
+      <li>Cash rewards</li>
+      <li>Lucky draw entries for big prizes</li>
+    </ul>
+  </div>
+
+  <div class="info-block">
+    <h4>Start Your Eco Journey Today</h4>
+    <p>
+      Every small action brings us one step closer to a cleaner and greener world.
+      Take your first step now:
+    </p>
+    <a href="sendemail+otp.html" class="btn-primary">Login & Begin</a>
+  </div>
+
+</div>
+
+<footer>
+  © 2025 Eco Rewards • One Step, Save World
+</footer>
+
+<!-- Logo Popup Modal -->
+<div id="logoModal">
+  <span id="closeLogo">✕</span>
+  <img src="logo.png" alt="Logo Large View">
+</div>
+
+<script>
+  const logoBtn   = document.getElementById("logoBtn");
+  const logoModal = document.getElementById("logoModal");
+  const closeLogo = document.getElementById("closeLogo");
+
+  // open modal
+  logoBtn.onclick = () => {
+    logoModal.style.display = "flex";
+  };
+
+  // close by X
+  closeLogo.onclick = () => {
+    logoModal.style.display = "none";
+  };
+
+  // close by clicking background
+  logoModal.onclick = (e) => {
+    if (e.target === logoModal) {
+      logoModal.style.display = "none";
+    }
+  };
+</script>
+
+</body>
+</html>
