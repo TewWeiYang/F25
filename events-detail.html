@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 </head>
+
 <body>
 
 <!-- TOP NAVBAR -->
@@ -21,7 +22,7 @@
   <div class="eco-right">
     <a href="home.html">Home</a>
     <a href="works.html">How It Works</a>
-    <a href="sendemail+otp.html">Login</a>
+    <a href="sendemail+otp.html">Profile</a>
   </div>
 </nav>
 
@@ -41,9 +42,11 @@
     <p id="event-date"></p>
     <p id="event-time"></p>
 
-    <h2>🗺 Event Location Map</h2>
-    <div id="googleMap" style="width:100%; height:400px; border-radius:20px;"></div>
-
+    <h2>🖼 Event Photo</h2>
+    <!-- PHOTO REPLACES MAP -->
+    <img id="event-photo" 
+         src="" 
+         style="width:100%; height:400px; object-fit:cover; border-radius:20px;">
   </section>
 
   <!-- RECYCLE ITEMS -->
@@ -90,24 +93,21 @@ const events = {
         location: "Tampines Community Club",
         date: "12 Oct 2025",
         time: "9AM – 1PM",
-        lat: 1.3536,
-        lng: 103.9457
+        photo: "https://img.freepik.com/premium-photo/community-recycling-drive-sorting-recyclables-together-earth-day_1008702-3983.jpg?w=2000"
     },
     2: {
         title: "School Eco Collection Drive",
         location: "Republic Polytechnic",
         date: "20 Oct 2025",
         time: "10AM – 3PM",
-        lat: 1.4423,
-        lng: 103.7850
+        photo: "https://i.pinimg.com/originals/c3/ad/21/c3ad21fc775415ecc8cb26841339cf48.png"
     },
     3: {
         title: "Green Market Recycling Booth",
         location: "Yishun Central",
         date: "2 Nov 2025",
         time: "4PM – 8PM",
-        lat: 1.4304,
-        lng: 103.8355
+        photo: "https://logodix.com/logo/990192.jpg"
     }
 };
 
@@ -119,32 +119,15 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("event-location").innerHTML = `<b>Location:</b> ${data.location}`;
     document.getElementById("event-date").innerHTML = `<b>Date:</b> ${data.date}`;
     document.getElementById("event-time").innerHTML = `<b>Time:</b> ${data.time}`;
+
+    // Set event photo
+    document.getElementById("event-photo").src = data.photo;
 });
 </script>
-
-<!-- GOOGLE MAP -->
-<script>
-function initMap() {
-    const pos = { lat: data.lat, lng: data.lng };
-
-    const map = new google.maps.Map(document.getElementById("googleMap"), {
-        zoom: 15,
-        center: pos,
-    });
-
-    new google.maps.Marker({
-        position: pos,
-        map: map,
-        title: data.title
-    });
-}
-</script>
-
-<script async src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
-
 
 <footer class="eco-footer">
   © 2025 Eco Rewards • One Step, Save World
 </footer>
+
 </body>
 </html>
