@@ -5,17 +5,56 @@
   <title>Eco Rewards – EcoSave Events</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+  <style>
+    /* ====== Logo Popup Modal ====== */
+    #logoModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(6px);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    #logoModal img {
+      max-width: 80%;
+      max-height: 80%;
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+      animation: zoomIn 0.25s ease;
+    }
+
+    #closeLogo {
+      position: absolute;
+      top: 40px;
+      right: 50px;
+      font-size: 42px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    @keyframes zoomIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
 </head>
+
 <body>
 
 <!-- TOP NAVBAR -->
 <nav class="eco-bar">
   <div class="eco-left">
-    <h2>Eco Rewards</h2>
+    <h2>EcoSave</h2>
   </div>
 
   <div class="eco-center">
-    <img src="logo.png" class="eco-logo">
+    <img src="logo.png" class="eco-logo" id="logoBtn">
   </div>
 
   <div class="eco-right">
@@ -73,10 +112,38 @@
 </div>
 
 <footer class="eco-footer">
-  © 2025 Eco Rewards • One Step, Save World
+  © 2025 EcoSave • Eco Rewards • One Step, Save World
 </footer>
 
+<!-- ===== LOGO POPUP MODAL (NEW) ===== -->
+<div id="logoModal">
+  <span id="closeLogo">✕</span>
+  <img src="logo.png" alt="Eco Rewards Logo Large">
+</div>
+
 <script src="home_and_events_detail.js"></script>
+
+<script>
+  // ===== Logo Popup Script =====
+  const logoBtn = document.getElementById("logoBtn");
+  const logoModal = document.getElementById("logoModal");
+  const closeLogo = document.getElementById("closeLogo");
+
+  logoBtn.onclick = () => {
+    logoModal.style.display = "flex";
+  };
+
+  closeLogo.onclick = () => {
+    logoModal.style.display = "none";
+  };
+
+  // 点击背景关闭
+  logoModal.onclick = (e) => {
+    if (e.target === logoModal) {
+      logoModal.style.display = "none";
+    }
+  };
+</script>
 
 </body>
 </html>

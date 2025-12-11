@@ -94,7 +94,7 @@
     <label>Password</label>
     <input type="password" id="password" placeholder="Enter password">
 
-    <button onclick="sendOtp()">Send OTP</button>
+    <button onclick="sendOtp()">LOGIN</button>
 
     <div id="otp-section">
         <label>Enter OTP</label>
@@ -139,7 +139,7 @@ function verifyOtp() {
     .then(data => {
         document.getElementById("status").innerText = data.message;
         if(data.message === "OTP verified") {
-            window.location.href = ".html"; 
+            window.location.href = "home.html"; 
         }
     })
     .catch(err => console.log(err));
