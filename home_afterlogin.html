@@ -376,6 +376,45 @@
         justify-content: center;
       }
     }
+
+    /* ===== PUZZLE BUTTON (after login only) ===== */
+    #puzzleBtn {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #22c55e, #15803d);
+      color: white;
+      font-size: 30px;
+      border-radius: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.28);
+      z-index: 999;
+      transition: transform .18s ease;
+    }
+    #puzzleBtn:hover { transform: translateY(-3px); }
+
+    #puzzleTooltip {
+      position: fixed;
+      right: 95px;
+      bottom: 32px;
+      background: linear-gradient(135deg, #22c55e, #15803d);
+      color: white;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      opacity: 0;
+      transform: translateX(10px);
+      transition: opacity .2s ease, transform .2s ease;
+      pointer-events: none;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.28);
+      z-index: 998;
+    }
   </style>
 </head>
 
@@ -391,7 +430,7 @@
   </div>
 </div>
 
-<!-- TOP NAVBAR -->
+<!-- TOP NAVBAR (已登录版：Profile) -->
 <nav class="eco-bar">
   <div class="eco-left">
     <h2>EcoSave</h2>
@@ -402,7 +441,7 @@
   </div>
 
   <div class="eco-right">
-    <a href="home.html">Home</a>
+    <a href="home_afterlogin.html">Home</a>
     <a href="works.html">How It Works</a>
     <a href="profile.html">Profile</a>
   </div>
@@ -454,9 +493,33 @@
       </div>
       <button onclick="goToEventDetail(3)">Attend Event</button>
     </div>
+
+    <div class="event-card">
+      <div class="event-info">
+        <h3>Beach Clean Up Challenge</h3>
+        <p>📍 East Coast Park</p>
+        <p>📅 28 Nov 2025 • 5PM – 9PM</p>
+        <p class="desc">Clean up the beach and get a voucher for a free Starbucks coffee.</p>
+      </div>
+      <button onclick="goToEventDetail(4)">Attend Event</button>
+    </div>
+
+    <div class="event-card">
+      <div class="event-info">
+        <h3>Save the World For Christmas</h3>
+        <p>📍 Sembawang Park</p>
+        <p>📅 12 Dec 2025 • 7AM – 11AM</p>
+        <p class="desc">Bring plastic bags, tools & phone. Get an eco code and win big prizes!</p>
+      </div>
+      <button onclick="goToEventDetail(5)">Attend Event</button>
+    </div>
   </section>
 
 </div>
+
+<!-- After Login: Puzzle Button -->
+<div id="puzzleBtn">🧩</div>
+<div id="puzzleTooltip">Checkout Puzzle</div>
 
 <footer class="eco-footer">
   © 2025 EcoSave • Eco Rewards • One Step, Save World
@@ -494,6 +557,24 @@
     if (e.target === logoModal) {
       logoModal.style.display = "none";
     }
+  };
+
+  // Puzzle Button + Tooltip
+  const puzzleBtn = document.getElementById("puzzleBtn");
+  const puzzleTooltip = document.getElementById("puzzleTooltip");
+
+  puzzleBtn.addEventListener("mouseenter", () => {
+    puzzleTooltip.style.opacity = "1";
+    puzzleTooltip.style.transform = "translateX(0px)";
+  });
+
+  puzzleBtn.addEventListener("mouseleave", () => {
+    puzzleTooltip.style.opacity = "0";
+    puzzleTooltip.style.transform = "translateX(10px)";
+  });
+
+  puzzleBtn.onclick = () => {
+    window.location.href = "car_puzzle_reward.html";
   };
 </script>
 
