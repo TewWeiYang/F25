@@ -139,7 +139,7 @@ function verifyOtp() {
     .then(data => {
         document.getElementById("status").innerText = data.message;
         if(data.message === "OTP verified") {
-            window.location.href = "home.html"; 
+            window.location.href = "home_afterlogin.html"; 
         }
     })
     .catch(err => console.log(err));
